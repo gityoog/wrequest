@@ -9,14 +9,14 @@ import { getErrorMessage } from "./utils"
 export default class WRequest<T = void> {
   private generator = new PromiseGenerator<T>()
   private loadCallback = new LoadCallback()
-  private abortCallback = new AbortCallback()
+  private abortCallback = new AbortCallback<T>()
   private successCallback = new SuccessCallback<T>()
   private failCallback = new FailCallback()
   private finalCallback = new FinalCallback()
 
   public debug = {
     delay: (time = 1000): WRequest<T> => {
-      this.generator.before(() => new Promise<void>(resolve => {
+      this.generator.after(() => new Promise<void>(resolve => {
         setTimeout(() => resolve(), time)
       }))
       return this
@@ -51,9 +51,8 @@ export default class WRequest<T = void> {
     try {
       await this.loadCallback.run()
       const result = await this.generator.run()
-      if (await this.abortCallback.run() === true) {
-        this.destroy()
-        return
+      if (await this.abortCallback.run(result) === true) {
+        return this.destroy()
       }
       if (result.type === 'success') {
         await this.successCallback.run(result.data)
@@ -71,7 +70,7 @@ export default class WRequest<T = void> {
     this.loadCallback.add(callback)
     return this
   }
-  abort(callback: AbortCallback.Callback) {
+  abort(callback: AbortCallback.Callback<T>) {
     this.abortCallback.add(callback)
     return this
   }
