@@ -99,7 +99,7 @@ class WRequest {
         this.successCallback.validate(callback);
         return this;
     }
-    error(callback) {
+    fail(callback) {
         this.failCallback.add(callback);
         return this;
     }

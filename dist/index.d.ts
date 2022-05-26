@@ -28,7 +28,7 @@ export default class WRequest<T = any> {
     map<RT>(callback: SuccessCallback.Map<T, RT>): WRequest<RT>;
     transform<RT>(callback: SuccessCallback.Map<T, RT>): WRequest<RT>;
     validate(callback: SuccessCallback.Validate<T>): this;
-    error(callback: FailCallback.Callback): this;
+    fail(callback: FailCallback.Callback): this;
     final(callback: FinalCallback.Callback): this;
     destroy(): void;
 }

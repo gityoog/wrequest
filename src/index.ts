@@ -86,7 +86,7 @@ export default class WRequest<T = any> {
     this.successCallback.validate(callback)
     return this
   }
-  error(callback: FailCallback.Callback) {
+  fail(callback: FailCallback.Callback) {
     this.failCallback.add(callback)
     return this
   }
