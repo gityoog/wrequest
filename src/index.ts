@@ -55,7 +55,11 @@ export default class WRequest<T = void> {
         this.destroy()
         return
       }
-      await this.successCallback.run(result)
+      if (result.type === 'success') {
+        await this.successCallback.run(result.data)
+      } else {
+        throw result.error
+      }
     } catch (e: unknown) {
       await this.failCallback.run(getErrorMessage(e))
     } finally {

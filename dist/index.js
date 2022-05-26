@@ -65,7 +65,12 @@ class WRequest {
                     this.destroy();
                     return;
                 }
-                yield this.successCallback.run(result);
+                if (result.type === 'success') {
+                    yield this.successCallback.run(result.data);
+                }
+                else {
+                    throw result.error;
+                }
             }
             catch (e) {
                 yield this.failCallback.run((0, utils_1.getErrorMessage)(e));

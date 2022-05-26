@@ -24,7 +24,14 @@ class PromiseGenerator {
             for (const beforeCallback of this.beforeCallbacks) {
                 yield beforeCallback();
             }
-            const result = yield this.callback();
+            let result;
+            try {
+                const data = yield this.callback();
+                result = { type: 'success', data };
+            }
+            catch (e) {
+                result = { type: 'fail', error: e };
+            }
             return result;
         });
     }
