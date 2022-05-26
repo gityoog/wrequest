@@ -28,7 +28,11 @@ class PromiseGenerator {
             for (const beforeCallback of this.beforeCallbacks) {
                 yield beforeCallback();
             }
-            return yield this.callback();
+            const result = yield this.callback();
+            for (const afterCallback of this.afterCallbacks) {
+                yield afterCallback();
+            }
+            return result;
         });
     }
     destroy() {

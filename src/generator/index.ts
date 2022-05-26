@@ -28,7 +28,11 @@ class PromiseGenerator<T> {
     for (const beforeCallback of this.beforeCallbacks) {
       await beforeCallback()
     }
-    return await this.callback!()
+    const result = await this.callback!()
+    for (const afterCallback of this.afterCallbacks) {
+      await afterCallback()
+    }
+    return result
   }
 
   destroy() {
