@@ -12,12 +12,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 class PromiseGenerator {
     constructor() {
         this.beforeCallbacks = [];
+        this.afterCallbacks = [];
     }
     set(callback) {
         this.callback = callback;
     }
     before(callback) {
         this.beforeCallbacks.push(callback);
+    }
+    after(callback) {
+        this.afterCallbacks.push(callback);
     }
     run() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -32,12 +36,16 @@ class PromiseGenerator {
             catch (e) {
                 result = { type: 'fail', error: e };
             }
+            for (const afterCallback of this.afterCallbacks) {
+                yield afterCallback(result);
+            }
             return result;
         });
     }
     destroy() {
         this.callback = undefined;
         this.beforeCallbacks = [];
+        this.afterCallbacks = [];
     }
 }
 exports.default = PromiseGenerator;

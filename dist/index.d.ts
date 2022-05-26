@@ -23,7 +23,7 @@ export default class WRequest<T = void> {
     constructor(callback: PromiseGenerator.Callback<T>);
     private run;
     load(callback: LoadCallback.Callback): this;
-    abort(callback: AbortCallback.Callback): this;
+    abort(callback: AbortCallback.Callback<T>): this;
     success(callback: SuccessCallback.Callback<T>): this;
     map<RT>(callback: SuccessCallback.Map<T, RT>): WRequest<RT>;
     transform<RT>(callback: SuccessCallback.Map<T, RT>): WRequest<RT>;

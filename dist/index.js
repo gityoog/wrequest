@@ -29,7 +29,7 @@ class WRequest {
         this.finalCallback = new final_1.default();
         this.debug = {
             delay: (time = 1000) => {
-                this.generator.before(() => new Promise(resolve => {
+                this.generator.after(() => new Promise(resolve => {
                     setTimeout(() => resolve(), time);
                 }));
                 return this;
@@ -61,9 +61,8 @@ class WRequest {
             try {
                 yield this.loadCallback.run();
                 const result = yield this.generator.run();
-                if ((yield this.abortCallback.run()) === true) {
-                    this.destroy();
-                    return;
+                if ((yield this.abortCallback.run(result)) === true) {
+                    return this.destroy();
                 }
                 if (result.type === 'success') {
                     yield this.successCallback.run(result.data);

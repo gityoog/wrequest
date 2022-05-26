@@ -16,10 +16,10 @@ class AbortCallback {
     add(callback) {
         this.callbacks.push(callback);
     }
-    run() {
+    run(result) {
         return __awaiter(this, void 0, void 0, function* () {
             for (const callback of this.callbacks) {
-                if ((yield callback()) === true) {
+                if ((yield callback(result)) === true) {
                     return true;
                 }
             }
