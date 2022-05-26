@@ -6,7 +6,7 @@ import SuccessCallback from "./callback/success"
 import PromiseGenerator from "./generator"
 import { getErrorMessage } from "./utils"
 
-export default class WRequest<T = any> {
+export default class WRequest<T = void> {
   private generator = new PromiseGenerator<T>()
   private loadCallback = new LoadCallback()
   private abortCallback = new AbortCallback()
@@ -16,7 +16,7 @@ export default class WRequest<T = any> {
 
   public debug = {
     delay: (time = 1000): WRequest<T> => {
-      this.generator.after(() => new Promise<void>(resolve => {
+      this.generator.before(() => new Promise<void>(resolve => {
         setTimeout(() => resolve(), time)
       }))
       return this

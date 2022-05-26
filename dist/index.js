@@ -29,7 +29,7 @@ class WRequest {
         this.finalCallback = new final_1.default();
         this.debug = {
             delay: (time = 1000) => {
-                this.generator.after(() => new Promise(resolve => {
+                this.generator.before(() => new Promise(resolve => {
                     setTimeout(() => resolve(), time);
                 }));
                 return this;

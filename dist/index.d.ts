@@ -4,7 +4,7 @@ import FinalCallback from "./callback/final";
 import LoadCallback from "./callback/load";
 import SuccessCallback from "./callback/success";
 import PromiseGenerator from "./generator";
-export default class WRequest<T = any> {
+export default class WRequest<T = void> {
     private generator;
     private loadCallback;
     private abortCallback;

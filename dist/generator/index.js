@@ -12,7 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 class PromiseGenerator {
     constructor() {
         this.beforeCallbacks = [];
-        this.afterCallbacks = [];
     }
     set(callback) {
         this.callback = callback;
@@ -20,25 +19,18 @@ class PromiseGenerator {
     before(callback) {
         this.beforeCallbacks.push(callback);
     }
-    after(callback) {
-        this.afterCallbacks.push(callback);
-    }
     run() {
         return __awaiter(this, void 0, void 0, function* () {
             for (const beforeCallback of this.beforeCallbacks) {
                 yield beforeCallback();
             }
             const result = yield this.callback();
-            for (const afterCallback of this.afterCallbacks) {
-                yield afterCallback();
-            }
             return result;
         });
     }
     destroy() {
         this.callback = undefined;
         this.beforeCallbacks = [];
-        this.afterCallbacks = [];
     }
 }
 exports.default = PromiseGenerator;
