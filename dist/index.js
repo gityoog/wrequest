@@ -111,6 +111,17 @@ class WRequest {
         this.finalCallback.add(callback);
         return this;
     }
+    promise() {
+        return new Promise((resolve, reject) => {
+            this.success(data => {
+                resolve(data);
+            });
+            this.fail(err => {
+                reject(err);
+                return err;
+            });
+        });
+    }
     destroy() {
         this.debug = null;
         this.generator.destroy();

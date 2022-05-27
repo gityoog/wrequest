@@ -51,6 +51,7 @@ request
   .after.fail((error) => {
     // 失败回调后的回调
   })
+  .promise() // to promise
   .debug.delay() // 调试专用 增加延时(默认: 1000ms)
   .debug.success(data) // 调试专用 直接使用成功Promise运行
   .debug.fail(data); // 调试专用 直接使用失败Promise运行

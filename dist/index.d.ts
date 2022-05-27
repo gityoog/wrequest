@@ -30,5 +30,6 @@ export default class WRequest<T = void> {
     validate(callback: SuccessCallback.Validate<T>): this;
     fail(callback: FailCallback.Callback): this;
     final(callback: FinalCallback.Callback): this;
+    promise(): Promise<T>;
     destroy(): void;
 }
