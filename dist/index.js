@@ -22,11 +22,6 @@ const utils_1 = require("./utils");
 class WRequest {
     constructor(callback) {
         this.generator = new generator_1.default();
-        this.loadCallback = new load_1.default();
-        this.abortCallback = new abort_1.default();
-        this.successCallback = new success_1.default();
-        this.failCallback = new fail_1.default();
-        this.finalCallback = new final_1.default();
         this.debug = {
             delay: (time = 1000) => {
                 this.generator.after(() => new Promise(resolve => {
@@ -45,69 +40,79 @@ class WRequest {
         };
         this.after = {
             success: (callback) => {
-                this.successCallback.after(callback);
+                this.getSuccessCallback().after(callback);
                 return this;
             },
             fail: (callback) => {
-                this.failCallback.after(callback);
+                this.getFailCallback().after(callback);
                 return this;
             }
         };
         this.generator.set(callback);
         setTimeout(() => this.run());
     }
+    getSuccessCallback() {
+        return this.successCallback || (this.successCallback = new success_1.default());
+    }
+    getFailCallback() {
+        return this.failCallback || (this.failCallback = new fail_1.default());
+    }
     run() {
+        var _a, _b, _c, _d, _e;
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                yield this.loadCallback.run();
+                yield ((_a = this.loadCallback) === null || _a === void 0 ? void 0 : _a.run());
                 const result = yield this.generator.run();
-                if ((yield this.abortCallback.run(result)) === true) {
+                if ((yield ((_b = this.abortCallback) === null || _b === void 0 ? void 0 : _b.run(result))) === true) {
                     return this.destroy();
                 }
                 if (result.type === 'success') {
-                    yield this.successCallback.run(result.data);
+                    yield ((_c = this.successCallback) === null || _c === void 0 ? void 0 : _c.run(result.data));
                 }
                 else {
                     throw result.error;
                 }
             }
             catch (e) {
-                yield this.failCallback.run((0, utils_1.getErrorMessage)(e));
+                yield ((_d = this.failCallback) === null || _d === void 0 ? void 0 : _d.run((0, utils_1.getErrorMessage)(e)));
             }
             finally {
-                yield this.finalCallback.run();
+                yield ((_e = this.finalCallback) === null || _e === void 0 ? void 0 : _e.run());
                 this.destroy();
             }
         });
     }
     load(callback) {
+        this.loadCallback || (this.loadCallback = new load_1.default());
         this.loadCallback.add(callback);
         return this;
     }
     abort(callback) {
+        this.abortCallback || (this.abortCallback = new abort_1.default());
         this.abortCallback.add(callback);
         return this;
     }
     success(callback) {
-        this.successCallback.add(callback);
+        this.getSuccessCallback().add(callback);
         return this;
     }
     map(callback) {
-        this.successCallback.map(callback);
+        this.getSuccessCallback().map(callback);
         return this;
     }
     transform(callback) {
         return this.map(callback);
     }
     validate(callback) {
-        this.successCallback.validate(callback);
+        this.getSuccessCallback().validate(callback);
         return this;
     }
     fail(callback) {
-        this.failCallback.add(callback);
+        this.getFailCallback().add(callback);
         return this;
     }
     final(callback) {
+        this.finalCallback || (this.finalCallback = new final_1.default());
         this.finalCallback.add(callback);
         return this;
     }
@@ -123,13 +128,14 @@ class WRequest {
         });
     }
     destroy() {
+        var _a, _b, _c, _d, _e;
         this.debug = null;
         this.generator.destroy();
-        this.loadCallback.destroy();
-        this.abortCallback.destroy();
-        this.successCallback.destroy();
-        this.failCallback.destroy();
-        this.finalCallback.destroy();
+        (_a = this.loadCallback) === null || _a === void 0 ? void 0 : _a.destroy();
+        (_b = this.abortCallback) === null || _b === void 0 ? void 0 : _b.destroy();
+        (_c = this.successCallback) === null || _c === void 0 ? void 0 : _c.destroy();
+        (_d = this.failCallback) === null || _d === void 0 ? void 0 : _d.destroy();
+        (_e = this.finalCallback) === null || _e === void 0 ? void 0 : _e.destroy();
     }
 }
 exports.default = WRequest;

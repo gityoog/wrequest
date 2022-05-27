@@ -4,21 +4,23 @@ import FinalCallback from "./callback/final";
 import LoadCallback from "./callback/load";
 import SuccessCallback from "./callback/success";
 import PromiseGenerator from "./generator";
-export default class WRequest<T = void> {
+export default class WRequest<T = unknown> {
     private generator;
-    private loadCallback;
-    private abortCallback;
-    private successCallback;
-    private failCallback;
-    private finalCallback;
+    private loadCallback?;
+    private abortCallback?;
+    private successCallback?;
+    private failCallback?;
+    private finalCallback?;
     debug: {
-        delay: (time?: number) => WRequest<T>;
-        success: (data: T) => WRequest<T>;
-        fail: (error: string) => WRequest<T>;
+        delay: (time?: number) => this;
+        success: (data: T) => this;
+        fail: (error: string) => this;
     };
+    private getSuccessCallback;
+    private getFailCallback;
     after: {
-        success: (callback: SuccessCallback.AfterCallback) => WRequest<T>;
-        fail: (callback: FailCallback.AfterCallback) => WRequest<T>;
+        success: (callback: SuccessCallback.AfterCallback) => this;
+        fail: (callback: FailCallback.AfterCallback) => this;
     };
     constructor(callback: PromiseGenerator.Callback<T>);
     private run;
