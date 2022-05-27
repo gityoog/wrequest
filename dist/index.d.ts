@@ -12,15 +12,15 @@ export default class WRequest<T = unknown> {
     private failCallback?;
     private finalCallback?;
     debug: {
-        delay: (time?: number) => this;
-        success: (data: T) => this;
-        fail: (error: string) => this;
+        delay: (time?: number) => WRequest<T>;
+        success: (data: T) => WRequest<T>;
+        fail: (error: string) => WRequest<T>;
     };
     private getSuccessCallback;
     private getFailCallback;
     after: {
-        success: (callback: SuccessCallback.AfterCallback) => this;
-        fail: (callback: FailCallback.AfterCallback) => this;
+        success: (callback: SuccessCallback.AfterCallback) => WRequest<T>;
+        fail: (callback: FailCallback.AfterCallback) => WRequest<T>;
     };
     constructor(callback: PromiseGenerator.Callback<T>);
     private run;

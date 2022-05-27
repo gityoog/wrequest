@@ -15,17 +15,17 @@ export default class WRequest<T = unknown> {
   private finalCallback?: FinalCallback
 
   public debug = {
-    delay: (time = 1000): this => {
+    delay: (time = 1000): WRequest<T> => {
       this.generator.after(() => new Promise<void>(resolve => {
         setTimeout(() => resolve(), time)
       }))
       return this
     },
-    success: (data: T): this => {
+    success: (data: T): WRequest<T> => {
       this.generator.set(() => Promise.resolve(data))
       return this
     },
-    fail: (error: string): this => {
+    fail: (error: string): WRequest<T> => {
       this.generator.set(() => Promise.reject(error))
       return this
     }
@@ -40,11 +40,11 @@ export default class WRequest<T = unknown> {
   }
 
   public after = {
-    success: (callback: SuccessCallback.AfterCallback): this => {
+    success: (callback: SuccessCallback.AfterCallback): WRequest<T> => {
       this.getSuccessCallback().after(callback)
       return this
     },
-    fail: (callback: FailCallback.AfterCallback): this => {
+    fail: (callback: FailCallback.AfterCallback): WRequest<T> => {
       this.getFailCallback().after(callback)
       return this
     }
