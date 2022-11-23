@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const builder_1 = require("./builder");
 const abort_1 = __importDefault(require("./callback/abort"));
 const fail_1 = __importDefault(require("./callback/fail"));
 const final_1 = __importDefault(require("./callback/final"));
@@ -138,4 +139,5 @@ class WRequest {
         (_e = this.finalCallback) === null || _e === void 0 ? void 0 : _e.destroy();
     }
 }
+WRequest.Build = builder_1.Build;
 exports.default = WRequest;

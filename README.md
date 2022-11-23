@@ -55,4 +55,31 @@ request
   .debug.delay() // 调试专用 增加延时(默认: 1000ms)
   .debug.success(data) // 调试专用 直接使用成功Promise运行
   .debug.fail(data); // 调试专用 直接使用失败Promise运行
+
+// 3.Generator Build
+const api = WRequest.Build((params: types) => Promise.resolve(data))
+
+const newApi = api.params(params => {
+  return {
+    body: params
+  }
+}).handle(r => r.transform(data => {
+  return {
+    result: data
+  }
+}))
+
+newApi(params)
+  .success(data => {
+
+  }) // ....
+// or
+newApi.cache(params, keys /*optional*/)
+  .success(data => {
+    
+  }) // ....
+
 ```
+
+## changelog
+ - v1.1 2022-11-23 add Generator Build

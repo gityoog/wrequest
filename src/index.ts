@@ -1,3 +1,4 @@
+import { Build, WRequestGenerator } from "./builder"
 import AbortCallback from "./callback/abort"
 import FailCallback from "./callback/fail"
 import FinalCallback from "./callback/final"
@@ -6,7 +7,12 @@ import SuccessCallback from "./callback/success"
 import PromiseGenerator from "./generator"
 import { getErrorMessage } from "./utils"
 
-export default class WRequest<T = unknown> {
+namespace WRequest {
+  export type Generator<T = void, R = void> = WRequestGenerator<T, R>
+}
+
+class WRequest<T = unknown> {
+  static Build = Build
   private generator = new PromiseGenerator<T>()
   private loadCallback?: LoadCallback
   private abortCallback?: AbortCallback<T>
@@ -129,3 +135,5 @@ export default class WRequest<T = unknown> {
     this.finalCallback?.destroy()
   }
 }
+
+export default WRequest

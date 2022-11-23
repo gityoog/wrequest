@@ -1,10 +1,15 @@
+import { Build, WRequestGenerator } from "./builder";
 import AbortCallback from "./callback/abort";
 import FailCallback from "./callback/fail";
 import FinalCallback from "./callback/final";
 import LoadCallback from "./callback/load";
 import SuccessCallback from "./callback/success";
 import PromiseGenerator from "./generator";
-export default class WRequest<T = unknown> {
+declare namespace WRequest {
+    type Generator<T = void, R = void> = WRequestGenerator<T, R>;
+}
+declare class WRequest<T = unknown> {
+    static Build: typeof Build;
     private generator;
     private loadCallback?;
     private abortCallback?;
@@ -35,3 +40,4 @@ export default class WRequest<T = unknown> {
     promise(): Promise<T>;
     destroy(): void;
 }
+export default WRequest;
