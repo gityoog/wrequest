@@ -20,11 +20,11 @@ function Build(origin) {
     };
     Generator.handle = function (handler) {
         handles.push(handler);
-        return this;
+        return Generator;
     };
     Generator.params = function (transformer) {
         transformers.push(transformer);
-        return this;
+        return Generator;
     };
     let cache;
     Generator.cache = function (params, keys) {
@@ -37,7 +37,7 @@ function Build(origin) {
             return new __1.default(() => result);
         }
         else {
-            const wRequest = this(params);
+            const wRequest = Generator(params);
             cache.set(key, wRequest.promise());
             wRequest.after.fail(() => {
                 cache.delete(key);

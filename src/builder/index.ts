@@ -22,12 +22,12 @@ export function Build<T = void, R = void>(origin: (params: T) => Promise<R>): WR
   }
   Generator.handle = function <RR>(handler: (wRequest: WRequest<R>) => WRequest<RR>) {
     handles.push(handler)
-    return this as unknown as WRequestGenerator<T, RR>
+    return Generator as unknown as WRequestGenerator<T, RR>
   }
 
   Generator.params = function <TT>(transformer: (params: TT) => T) {
     transformers.push(transformer)
-    return this as unknown as WRequestGenerator<TT, R>
+    return Generator as unknown as WRequestGenerator<TT, R>
   }
 
   let cache: Map<string, Promise<R>>
@@ -40,7 +40,7 @@ export function Build<T = void, R = void>(origin: (params: T) => Promise<R>): WR
       const result = cache.get(key)!
       return new WRequest(() => result)
     } else {
-      const wRequest = this(params)
+      const wRequest = Generator(params)
       cache.set(key, wRequest.promise())
       wRequest.after.fail(() => {
         cache.delete(key)
