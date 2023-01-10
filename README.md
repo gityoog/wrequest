@@ -2,13 +2,19 @@
 
 Promise Wrap
 
-## 安装
+## Installation
+
+```
+$ npm install wrequest@npm:@gityoog/wrequest --save
+```
+
+or
 
 ```
 $ npm install git+https://github.com/gityoog/wrequest.git --save
 ```
 
-## 使用
+## Usage
 
 ```ts
 // 1.创建实例
@@ -57,29 +63,27 @@ request
   .debug.fail(data); // 调试专用 直接使用失败Promise运行
 
 // 3.Generator Build
-const api = WRequest.Build((params: types) => Promise.resolve(data))
+const api = WRequest.Build((params: types) => Promise.resolve(data));
 
-const newApi = api.params(params => {
-  return {
-    body: params
-  }
-}).handle(r => r.transform(data => {
-  return {
-    result: data
-  }
-}))
+const newApi = api
+  .params((params) => {
+    return {
+      body: params,
+    };
+  })
+  .handle((r) =>
+    r.transform((data) => {
+      return {
+        result: data,
+      };
+    })
+  );
 
-newApi(params)
-  .success(data => {
-
-  }) // ....
+newApi(params).success((data) => {}); // ....
 // or
-newApi.cache(params, keys /*optional*/)
-  .success(data => {
-    
-  }) // ....
-
+newApi.cache(params, keys /*optional*/).success((data) => {}); // ....
 ```
 
-## changelog
- - v1.1 2022-11-23 add Generator Build
+## Changelog
+
+- v1.1 2022-11-23 add Generator Build

@@ -1,12 +1,16 @@
 {
   "name": "wrequest",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "",
   "main": "./dist/index.js",
   "scripts": {
     "build": "rimraf ./dist && tsc"
   },
-  "author": "",
+  "author": "gityoog",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gityoog/wrequest.git"
+  },
   "license": "ISC",
   "devDependencies": {
     "rimraf": "^3.0.2"
