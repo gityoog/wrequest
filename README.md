@@ -87,3 +87,4 @@ newApi.cache(params, keys /*optional*/).success((data) => {}); // ....
 ## Changelog
 
 - v1.1 2022-11-23 add Generator Build
+- v1.2 2023-03-09 print unknown error
