@@ -71,10 +71,13 @@ class WRequest {
                     yield ((_c = this.successCallback) === null || _c === void 0 ? void 0 : _c.run(result.data));
                 }
                 else {
-                    throw result.error;
+                    throw new utils_1.WRequestError((0, utils_1.getErrorMessage)(result.error));
                 }
             }
             catch (e) {
+                if (!(e instanceof utils_1.WRequestError)) {
+                    console.error("RuntimeError", e);
+                }
                 yield ((_d = this.failCallback) === null || _d === void 0 ? void 0 : _d.run((0, utils_1.getErrorMessage)(e)));
             }
             finally {

@@ -5,7 +5,7 @@ import FinalCallback from "./callback/final"
 import LoadCallback from "./callback/load"
 import SuccessCallback from "./callback/success"
 import PromiseGenerator from "./generator"
-import { getErrorMessage } from "./utils"
+import { getErrorMessage, WRequestError } from "./utils"
 
 namespace WRequest {
   export type Generator<T = void, R = void> = WRequestGenerator<T, R>
@@ -71,9 +71,12 @@ class WRequest<T = unknown> {
       if (result.type === 'success') {
         await this.successCallback?.run(result.data)
       } else {
-        throw result.error
+        throw new WRequestError(getErrorMessage(result.error))
       }
     } catch (e: unknown) {
+      if (!(e instanceof WRequestError)) {
+        console.error("RuntimeError", e)
+      }
       await this.failCallback?.run(getErrorMessage(e))
     } finally {
       await this.finalCallback?.run()

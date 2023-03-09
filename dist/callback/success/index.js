@@ -25,7 +25,7 @@ class SuccessCallback {
                     case 'validate':
                         const result = yield callback.fn(data);
                         if (result !== undefined && result !== true) {
-                            throw new Error((0, utils_1.getErrorMessage)(result, 'validate error'));
+                            throw new utils_1.WRequestError(typeof result === 'string' ? result : 'validate fail');
                         }
                         break;
                     default:

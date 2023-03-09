@@ -1,4 +1,4 @@
-import { getErrorMessage } from "../../utils"
+import { getErrorMessage, WRequestError } from "../../utils"
 
 namespace SuccessCallback {
   export type Callback<T> = ((data: T) => void) | ((data: T) => Promise<void>)
@@ -30,7 +30,7 @@ class SuccessCallback<T> {
         case 'validate':
           const result = await callback.fn(data)
           if (result !== undefined && result !== true) {
-            throw new Error(getErrorMessage(result, 'validate error'))
+            throw new WRequestError(typeof result === 'string' ? result : 'validate fail')
           }
           break
         default:
