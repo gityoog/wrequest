@@ -10,7 +10,8 @@ import { getErrorMessage, WRequestError } from "./utils"
 namespace WRequest {
   export type Generator<T = void, R = void> = WRequestGenerator<T, R>
 }
-
+// todo 增加完整状态
+// todo 增加完成状态后添加回调提示
 class WRequest<T = unknown> {
   static Build = Build
   private generator = new PromiseGenerator<T>()
@@ -29,6 +30,7 @@ class WRequest<T = unknown> {
     },
     success: (data: T): WRequest<T> => {
       this.generator.set(() => Promise.resolve(data))
+      this.successCallback?.removeMap()
       return this
     },
     fail: (error: string): WRequest<T> => {
