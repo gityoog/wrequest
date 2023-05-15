@@ -59,7 +59,7 @@ request
   })
   .promise() // to promise
   .debug.delay() // 调试专用 增加延时(默认: 1000ms)
-  .debug.success(data) // 调试专用 直接使用成功Promise运行
+  .debug.success(data) // 调试专用 直接使用成功Promise运行 map模拟不可逆 将移除之前新增的map逻辑
   .debug.fail(data); // 调试专用 直接使用失败Promise运行
 
 // 3.Generator Build

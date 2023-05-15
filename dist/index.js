@@ -20,6 +20,8 @@ const load_1 = __importDefault(require("./callback/load"));
 const success_1 = __importDefault(require("./callback/success"));
 const generator_1 = __importDefault(require("./generator"));
 const utils_1 = require("./utils");
+// todo 增加完整状态
+// todo 增加完成状态后添加回调提示
 class WRequest {
     constructor(callback) {
         this.generator = new generator_1.default();
@@ -31,7 +33,9 @@ class WRequest {
                 return this;
             },
             success: (data) => {
+                var _a;
                 this.generator.set(() => Promise.resolve(data));
+                (_a = this.successCallback) === null || _a === void 0 ? void 0 : _a.removeMap();
                 return this;
             },
             fail: (error) => {
