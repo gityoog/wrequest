@@ -59,6 +59,11 @@ class SuccessCallback<T> {
       fn: callback
     })
   }
+  removeMap() {
+    this.callbacks = this.callbacks.filter(callback => {
+      return callback.type !== 'map'
+    })
+  }
   after(callback: SuccessCallback.AfterCallback) {
     this.afterCallbacks.push(callback)
   }
