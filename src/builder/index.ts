@@ -26,7 +26,7 @@ export function Build<T = void, R = void>(origin: (params: T) => Promise<R>): WR
   }
 
   Generator.params = function <TT>(transformer: (params: TT) => T) {
-    transformers.push(transformer)
+    transformers.unshift(transformer)
     return Generator as unknown as WRequestGenerator<TT, R>
   }
 
