@@ -23,7 +23,7 @@ function Build(origin) {
         return Generator;
     };
     Generator.params = function (transformer) {
-        transformers.push(transformer);
+        transformers.unshift(transformer);
         return Generator;
     };
     let cache;
