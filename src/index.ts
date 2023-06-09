@@ -73,11 +73,11 @@ class WRequest<T = unknown> {
       if (result.type === 'success') {
         await this.successCallback?.run(result.data)
       } else {
-        throw new WRequestError(getErrorMessage(result.error))
+        throw result.error
       }
     } catch (e: unknown) {
-      if (!(e instanceof WRequestError)) {
-        console.error("RuntimeError", e)
+      if (e instanceof Error && !(e instanceof WRequestError)) {
+        console.error(e)
       }
       await this.failCallback?.run(getErrorMessage(e))
     } finally {
