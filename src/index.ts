@@ -5,7 +5,7 @@ import FinalCallback from "./callback/final"
 import LoadCallback from "./callback/load"
 import SuccessCallback from "./callback/success"
 import PromiseGenerator from "./generator"
-import { getErrorMessage, WRequestError } from "./utils"
+import { getErrorMessage, WRequestError, WRequestOriginError } from "./utils"
 
 namespace WRequest {
   export type Generator<T = void, R = void> = WRequestGenerator<T, R>
@@ -79,7 +79,7 @@ class WRequest<T = unknown> {
       if (e instanceof Error && !(e instanceof WRequestError)) {
         console.error(e)
       }
-      await this.failCallback?.run(getErrorMessage(e))
+      await this.failCallback?.run(getErrorMessage(e), e instanceof WRequestOriginError ? e : undefined)
     } finally {
       await this.finalCallback?.run()
       this.destroy()
@@ -142,3 +142,8 @@ class WRequest<T = unknown> {
 }
 
 export default WRequest
+
+export {
+  WRequestError,
+  WRequestOriginError
+}

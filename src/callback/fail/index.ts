@@ -1,14 +1,16 @@
+import { WRequestOriginError } from "../../utils"
+
 namespace FailCallback {
-  export type Callback = ((error: string) => string | void) | ((error: string) => Promise<string | void>)
-  export type AfterCallback = ((error: string) => void) | ((error: string) => Promise<void>)
+  export type Callback = ((error: string, origin?: WRequestOriginError) => string | void) | ((error: string, origin?: WRequestOriginError) => Promise<string | void>)
+  export type AfterCallback = ((error: string, origin?: WRequestOriginError) => void) | ((error: string, origin?: WRequestOriginError) => Promise<void>)
 }
 class FailCallback {
   private callbacks: FailCallback.Callback[] = []
   private afterCallbacks: FailCallback.AfterCallback[] = []
 
-  async run(error: string) {
+  async run(error: string, origin?: WRequestOriginError) {
     for (const callback of this.callbacks) {
-      const result = await callback(error)
+      const result = await callback(error, origin)
       if (result === undefined) {
         break
       } else {
@@ -16,7 +18,7 @@ class FailCallback {
       }
     }
     for (const callback of this.afterCallbacks) {
-      await callback(error)
+      await callback(error, origin)
     }
   }
   add(callback: FailCallback.Callback) {
