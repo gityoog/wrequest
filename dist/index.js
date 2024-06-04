@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.WRequestOriginError = exports.WRequestError = void 0;
 const builder_1 = require("./builder");
 const abort_1 = __importDefault(require("./callback/abort"));
 const fail_1 = __importDefault(require("./callback/fail"));
@@ -20,9 +21,17 @@ const load_1 = __importDefault(require("./callback/load"));
 const success_1 = __importDefault(require("./callback/success"));
 const generator_1 = __importDefault(require("./generator"));
 const utils_1 = require("./utils");
+Object.defineProperty(exports, "WRequestError", { enumerable: true, get: function () { return utils_1.WRequestError; } });
+Object.defineProperty(exports, "WRequestOriginError", { enumerable: true, get: function () { return utils_1.WRequestOriginError; } });
 // todo 增加完整状态
 // todo 增加完成状态后添加回调提示
 class WRequest {
+    getSuccessCallback() {
+        return this.successCallback || (this.successCallback = new success_1.default());
+    }
+    getFailCallback() {
+        return this.failCallback || (this.failCallback = new fail_1.default());
+    }
     constructor(callback) {
         this.generator = new generator_1.default();
         this.debug = {
@@ -56,15 +65,9 @@ class WRequest {
         this.generator.set(callback);
         setTimeout(() => this.run());
     }
-    getSuccessCallback() {
-        return this.successCallback || (this.successCallback = new success_1.default());
-    }
-    getFailCallback() {
-        return this.failCallback || (this.failCallback = new fail_1.default());
-    }
     run() {
-        var _a, _b, _c, _d, _e;
         return __awaiter(this, void 0, void 0, function* () {
+            var _a, _b, _c, _d, _e;
             try {
                 yield ((_a = this.loadCallback) === null || _a === void 0 ? void 0 : _a.run());
                 const result = yield this.generator.run();
@@ -82,7 +85,7 @@ class WRequest {
                 if (e instanceof Error && !(e instanceof utils_1.WRequestError)) {
                     console.error(e);
                 }
-                yield ((_d = this.failCallback) === null || _d === void 0 ? void 0 : _d.run((0, utils_1.getErrorMessage)(e)));
+                yield ((_d = this.failCallback) === null || _d === void 0 ? void 0 : _d.run((0, utils_1.getErrorMessage)(e), e instanceof utils_1.WRequestOriginError ? e : undefined));
             }
             finally {
                 yield ((_e = this.finalCallback) === null || _e === void 0 ? void 0 : _e.run());

@@ -1,13 +1,13 @@
-declare type callback<T> = () => Promise<T>;
-declare type beforeCallback = () => Promise<void>;
-declare type result<T> = {
+type callback<T> = () => Promise<T>;
+type beforeCallback = () => Promise<void>;
+type result<T> = {
     type: 'success';
     data: T;
 } | {
     type: 'fail';
     error: unknown;
 };
-declare type afterCallback<T> = (result: result<T>) => Promise<void>;
+type afterCallback<T> = (result: result<T>) => Promise<void>;
 declare namespace PromiseGenerator {
     type Callback<T> = callback<T>;
     type BeforeCallback = beforeCallback;

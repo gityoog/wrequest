@@ -5,6 +5,7 @@ import FinalCallback from "./callback/final";
 import LoadCallback from "./callback/load";
 import SuccessCallback from "./callback/success";
 import PromiseGenerator from "./generator";
+import { WRequestError, WRequestOriginError } from "./utils";
 declare namespace WRequest {
     type Generator<T = void, R = void> = WRequestGenerator<T, R>;
 }
@@ -41,3 +42,4 @@ declare class WRequest<T = unknown> {
     destroy(): void;
 }
 export default WRequest;
+export { WRequestError, WRequestOriginError };

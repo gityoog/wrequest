@@ -14,10 +14,10 @@ class FailCallback {
         this.callbacks = [];
         this.afterCallbacks = [];
     }
-    run(error) {
+    run(error, origin) {
         return __awaiter(this, void 0, void 0, function* () {
             for (const callback of this.callbacks) {
-                const result = yield callback(error);
+                const result = yield callback(error, origin);
                 if (result === undefined) {
                     break;
                 }
@@ -26,7 +26,7 @@ class FailCallback {
                 }
             }
             for (const callback of this.afterCallbacks) {
-                yield callback(error);
+                yield callback(error, origin);
             }
         });
     }
