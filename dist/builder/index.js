@@ -26,6 +26,9 @@ function Build(origin) {
         transformers.unshift(transformer);
         return Generator;
     };
+    Generator.map = function (transformer) {
+        return Generator.handle(wRequest => wRequest.map(transformer));
+    };
     let cache;
     Generator.cache = function (params, keys) {
         if (!cache) {
