@@ -39,6 +39,7 @@ declare class WRequest<T = unknown> {
     fail(callback: FailCallback.Callback): this;
     final(callback: FinalCallback.Callback): this;
     promise(): Promise<T>;
+    concat<R>(callback: (data: T) => WRequest<R>): WRequest<R>;
     destroy(): void;
 }
 export default WRequest;

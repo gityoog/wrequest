@@ -138,6 +138,9 @@ class WRequest {
             });
         });
     }
+    concat(callback) {
+        return new WRequest(() => this.promise().then(callback).then(w => w.promise()));
+    }
     destroy() {
         var _a, _b, _c, _d, _e;
         this.debug = null;
