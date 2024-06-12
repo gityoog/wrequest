@@ -130,6 +130,9 @@ class WRequest<T = unknown> {
       })
     })
   }
+  concat<R>(callback: (data: T) => WRequest<R>) {
+    return new WRequest(() => this.promise().then(callback).then(w => w.promise()))
+  }
   destroy() {
     this.debug = null!
     this.generator.destroy()
