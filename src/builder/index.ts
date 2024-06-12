@@ -5,6 +5,7 @@ export interface WRequestGenerator<T = void, R = void> {
   cache(params: T, keys?: string | string[]): WRequest<R>
   handle<RR>(handler: (wRequest: WRequest<R>) => WRequest<RR>): WRequestGenerator<T, RR>
   params<TT>(transformer: (params: TT) => T): WRequestGenerator<TT, R>
+  map<RR>(transformer: (data: R) => RR): WRequestGenerator<T, RR>
 }
 
 export function Build<T = void, R = void>(origin: (params: T) => Promise<R>): WRequestGenerator<T, R> {
@@ -28,6 +29,10 @@ export function Build<T = void, R = void>(origin: (params: T) => Promise<R>): WR
   Generator.params = function <TT>(transformer: (params: TT) => T) {
     transformers.unshift(transformer)
     return Generator as unknown as WRequestGenerator<TT, R>
+  }
+
+  Generator.map = function <RR>(transformer: (data: R) => RR) {
+    return Generator.handle(wRequest => wRequest.map(transformer))
   }
 
   let cache: Map<string, Promise<R>>
