@@ -31,6 +31,7 @@ class WRequest<T = unknown> {
     success: (data: T): WRequest<T> => {
       this.generator.set(() => Promise.resolve(data))
       this.successCallback?.removeMap()
+      this.successCallback?.removeValidate()
       return this
     },
     fail: (error: string): WRequest<T> => {

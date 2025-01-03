@@ -64,6 +64,11 @@ class SuccessCallback<T> {
       return callback.type !== 'map'
     })
   }
+  removeValidate() {
+    this.callbacks = this.callbacks.filter(callback => {
+      return callback.type !== 'validate'
+    })
+  }
   after(callback: SuccessCallback.AfterCallback) {
     this.afterCallbacks.push(callback)
   }
