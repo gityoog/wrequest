@@ -42,9 +42,10 @@ class WRequest {
                 return this;
             },
             success: (data) => {
-                var _a;
+                var _a, _b;
                 this.generator.set(() => Promise.resolve(data));
                 (_a = this.successCallback) === null || _a === void 0 ? void 0 : _a.removeMap();
+                (_b = this.successCallback) === null || _b === void 0 ? void 0 : _b.removeValidate();
                 return this;
             },
             fail: (error) => {

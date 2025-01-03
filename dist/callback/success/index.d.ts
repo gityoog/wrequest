@@ -12,6 +12,7 @@ declare class SuccessCallback<T> {
     map(callback: SuccessCallback.Map<T, any>): void;
     validate(callback: SuccessCallback.Validate<T>): void;
     removeMap(): void;
+    removeValidate(): void;
     after(callback: SuccessCallback.AfterCallback): void;
     destroy(): void;
 }
